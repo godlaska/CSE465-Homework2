@@ -103,7 +103,13 @@
 ; that are inside nested loops taken out. So we want to flatten all elements and have
 ; them all in a single list. For example '(a (a a) a))) should become (a a a a)
 (define (flatten lst)
-	'()
+  (if (null? lst)
+      '() ; return empty list
+      (if (list? (car lst)) ; check if current element is a list
+          (append (flatten (car lst)) (flatten (cdr lst))) ; if the element is a list, recursively construct a list from it then add it
+          (cons (car lst) (flatten (cdr lst))) ; if not a list, add to constructing list
+      )
+  )
 )
 
 (line "flatten")
