@@ -106,7 +106,7 @@
   (if (null? lst)
       '() ; return empty list
       (if (list? (car lst)) ; check if current element is a list
-          (append (flatten (car lst)) (flatten (cdr lst))) ; if the element is a list, recursively construct a list from it then add it
+          (append (flatten (car lst)) (flatten (cdr lst))) ; if the element is a list, recursively flatten the list and then remove it 
           (cons (car lst) (flatten (cdr lst))) ; if not a list, add to constructing list
       )
   )
@@ -155,7 +155,16 @@
 ; from the 'zipcodes.scm' file for this. You can just call 'zipcodes' directly
 ; as shown in the sample example
 (define (getLatLon zipcode zips)
-	(list zipcode (car zips))
+  (if (null? zips)
+      '()
+      (let ((currentZip (car zips))) ; gets the first elem in zipcodes, which is the zipcode
+        (if (equal? zipcode (car currentZip))
+            ; list-ref information provided by https://groups.csail.mit.edu/mac/ftpdir/scheme-7.4/doc-html/scheme_8.html
+            (list (list-ref currentZip 4) (list-ref currentZip 5)) ; gets the 4th and 5th element from the list which are lat and lon
+            (getLatLon zipcode (cdr zips)) ; recurses through until correct zip code is found (if found)
+        )
+      )
+  )
 )
 
 (line "getLatLon")
