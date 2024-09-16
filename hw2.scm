@@ -74,6 +74,8 @@
   (list (minLst lst) (maxLst lst))
 )
 
+; --- HELPER FUNCTIONS ---
+
 ; defines a function that returns the max value of a given list
 (define (maxLst lst)
   (if (= 1 (length lst))
@@ -82,8 +84,6 @@
   )
 )
 
-; --- HELPER FUNCTIONS ---
-
 ; defines a function that returns the min value of a given list
 (define (minLst lst)
   (if (= 1 (length lst))
@@ -91,7 +91,6 @@
       (min (car lst) (minLst (cdr lst))) ; else recursively compares the list, removing the last element
   )
 )
-
 ; ------------------------
 
 (line "minAndMax")
@@ -120,8 +119,22 @@
 ; ((1 a) (1 b) (1 c) (2 a) (2 b) (2 c))
 ; lst1 & lst2 -- two flat lists.
 (define (crossproduct lst1 lst2)
-	'()
+  (if (null? lst1)
+      '() ; return empty list
+      (cons (crossproduct-helper (car lst1) lst2)  ; Pair (car lst1) with every element of lst2
+            (crossproduct (cdr lst1) lst2))  ; Recursively pair with the rest of lst1
+  )
 )
+
+; --- HELPER FUNCTION ---
+(define (crossproduct-helper lst1Elem lst2)
+  (if (null? lst2)
+      '() ; return empty list
+      (cons (list lst1Elem (car lst2)) ; creates a pair of element from lst1 with lst2
+            (crossproduct-helper lst1Elem (cdr lst2))) ; recursively pairs the rest of lst2 elements
+  )
+)
+; ------------------------
 
 (line "crossproduct")
 (mydisplay (crossproduct '(1 2) '(a b c)))
