@@ -180,35 +180,3 @@
 (mydisplay (filterList '(1 2 3 11 22 33 -1 -2 -3 -11 -22 -33) (list POS? even? LARGE?)))
 (line "filterList")
 ; ---------------------------------------------
-
-; #### Only for Graduate Students ####
-; Returns a list of all the place names common to a set of states.
-; states -- is list of state names
-; zips -- the zipcode DB
-(define (getCommonPlaces2 states zips)
-	'("Oxford" "Franklin")
-)
-
-(line "getCommonPlaces2")
-(mydisplay (getCommonPlaces2 '("OH" "MI" "PA") zipcodes))
-(line "getCommonPlaces2")
-
-; ---------------------------------------------
-
-; #### Only for Graduate Students ####
-; Returns the distance between two zip codes in "meters".
-; Use lat/lon. Do some research to compute this.
-; You can find some info here: https://www.movable-type.co.uk/scripts/latlong.html
-; zip1 & zip2 -- the two zip codes in question.
-; zips -- zipcode DB
-(define (getDistanceBetweenZipCodes zip1 zip2 zips)
-	0
-)
-
-(line "getDistanceBetweenZipCodes")
-(mydisplay (getDistanceBetweenZipCodes 45056 48122 zipcodes))
-(line "getDistanceBetweenZipCodes")
-; ---------------------------------------------
-
-
-
