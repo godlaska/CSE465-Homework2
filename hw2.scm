@@ -71,18 +71,28 @@
 ; in the list and the second is the largest in the list. 
 ; lst -- contains numeric values, and length is >= 1.
 (define (minAndMax lst)
+  (list (minLst lst) (maxLst lst))
+)
+
+; defines a function that returns the max value of a given list
+(define (maxLst lst)
   (if (= 1 (length lst))
-      (list (car lst) (car lst)) ; case if there's only one element in list, so min/max are the same
-      (list (car lst) (car lst)) ; DELETE THIS
-
-
-      
-;;    MIN/MAX LOGIC NEEDS IMPLEMENT STILL!!!!!!!!!!!!
-;;       (list
-;;        (max (car lst) (minAndMax (cdr lst)))
-;;        (min (car lst) (minAndMax (cdr lst))))
+      (car lst) ; if there's only one element left, grabs that
+      (max (car lst) (maxLst (cdr lst))) ; else recursively compares the list, removing the last element
   )
 )
+
+; --- HELPER FUNCTIONS ---
+
+; defines a function that returns the min value of a given list
+(define (minLst lst)
+  (if (= 1 (length lst))
+      (car lst) ; if there's only one element left, grabs that
+      (min (car lst) (minLst (cdr lst))) ; else recursively compares the list, removing the last element
+  )
+)
+
+; ------------------------
 
 (line "minAndMax")
 (mydisplay (minAndMax '(1 2 -3 4 2)))  ; -> (-3 4)
