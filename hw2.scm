@@ -176,8 +176,43 @@
 ; placeName -- is the text corresponding to the name of the place
 ; zips -- the zipcode DB
 (define (getCommonPlaces state1 state2 zips)
-	(list state1 state2)
-)
+  (define places1 (getStatePlaces state1 zips))
+  (define places2 (getStatePlaces state2 zips))
+  (define (find-common places1 result)
+    (cond
+      ((null? places1) result)
+      ((place-in-list? (car places1) places2)
+       (find-common (cdr places1) (cons (car places1) result)))
+      (else (find-common (cdr places1) result))))
+  (find-common places1 '()))
+
+; ChatGPT provided assistance in this method's coding, namely the loops and
+; and recursion logic.
+
+; Helper function to check if the state in the entry matches the given state
+(define (state-matches? entry state)
+  (equal? (caddr entry) state))  ; The state is the third element in the entry
+
+; Helper function to extract the place name from an entry
+(define (get-place entry)
+  (cadr entry))  ; The place name is the second element in the entry
+
+; Helper function to filter the zip database by state and extract place names
+(define (getStatePlaces state zips)
+  (define (loop entries result)
+    (cond
+      ((null? entries) result)
+      ((state-matches? (car entries) state)
+       (loop (cdr entries) (cons (get-place (car entries)) result)))
+      (else (loop (cdr entries) result))))
+  (loop zips '()))
+
+; Helper function to check if a place is in the list
+(define (place-in-list? place places)
+  (cond
+    ((null? places) #f)
+    ((equal? place (car places)) #t)
+    (else (place-in-list? place (cdr places)))))
 
 (line "getCommonPlaces")
 (mydisplay (getCommonPlaces "OH" "MI" zipcodes))
@@ -188,8 +223,7 @@
 ; state -- state
 ; zips -- zipcode DB
 (define (zipCount state zips)
-	0
-)
+ 
 
 (line "zipCount")
 (mydisplay (zipCount "OH" zipcodes))
@@ -209,8 +243,7 @@
 ; filters -- list of predicates to apply to the individual elements
 
 (define (filterList lst filters)
-	lst
-)
+
 
 (line "filterList")
 (mydisplay (filterList '(1 2 3 11 22 33 -1 -2 -3 -11 -22 -33) (list POS?)))
